@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bộ Công Cụ Tiện Ích</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        corePlugins: { preflight: false }
+      }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; margin: 0; padding: 0; overflow-y: auto; overflow-x: hidden; user-select: none; }
+        .screen { display: none; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        .active { display: block; }
+        
+        .util-home-btn { position: absolute; left: 20px; top: 20px; background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; z-index: 100;}
+        .util-home-btn:hover { background: white; color: #000; }
+
+        /* ========================================================
+           [VÙNG KHÓA 5]: CSS BỘ CÔNG CỤ TIỆN ÍCH
+           ======================================================== */
+        #screen-utilities { padding: 0 !important; background-color: #f8fafc !important; display: none; flex-direction: column; height: 100vh; overflow: hidden; --util-primary: #0ea5e9; --util-primary-hover: #0284c7; --util-primary-light: #e0f2fe; --util-success: #10b981; --util-success-hover: #059669; --util-danger: #ef4444; --util-danger-hover: #dc2626; --util-bg-body: #f8fafc; --util-bg-card: #ffffff; --util-text-main: #0f172a; --util-text-muted: #64748b; --util-border: #e2e8f0; --util-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); --util-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); --util-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); --util-rad-lg: 16px; --util-rad-md: 12px; --util-rad-sm: 8px; }
+        #screen-utilities.active { display: flex !important; }
+        #screen-utilities * { box-sizing: border-box; font-family: 'Inter', sans-serif; user-select: auto;}
+        #screen-utilities header { background: linear-gradient(135deg, #0ea5e9, #2dd4bf); color: white; text-align: center; padding: 24px 20px 16px; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; box-shadow: var(--util-shadow-md); flex-shrink: 0; position: relative; z-index: 10; }
+        #screen-utilities .author-info { text-align: center; color: var(--util-primary-hover); font-size: 14px; font-weight: 600; background: var(--util-primary-light); padding: 10px 20px; margin: 0; border-bottom: 1px solid var(--util-border); flex-shrink: 0; }
+        #screen-utilities .container-wrapper { display: flex; flex: 1; padding: 24px; gap: 24px; height: calc(100vh - 125px); max-width: 1280px; margin: 0 auto; width: 100%; }
+        #screen-utilities .menu, #screen-utilities .main { background-color: var(--util-bg-card); border-radius: var(--util-rad-lg); box-shadow: var(--util-shadow-md); display: flex; flex-direction: column; }
+        #screen-utilities .menu { width: 280px; padding: 24px; flex-shrink: 0; border: 1px solid var(--util-border); }
+        #screen-utilities .menu h3 { margin-top: 0; margin-bottom: 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--util-text-muted); border-bottom: 2px solid var(--util-bg-body); padding-bottom: 12px; }
+        #screen-utilities .menu button { width: 100%; margin: 4px 0; padding: 14px 18px; font-size: 15px; font-weight: 500; background-color: transparent; color: var(--util-text-muted); border: 1px solid transparent; cursor: pointer; border-radius: var(--util-rad-sm); transition: all 0.2s ease; text-align: left; display: flex; align-items: center; gap: 10px; }
+        #screen-utilities .menu button:hover { background-color: var(--util-bg-body); color: var(--util-primary); }
+        #screen-utilities .menu button.active { background-color: var(--util-primary-light); color: var(--util-primary-hover); font-weight: 600; border-left: 4px solid var(--util-primary); }
+        #screen-utilities .main { flex: 1; padding: 32px; overflow-y: auto; border: 1px solid var(--util-border); }
+        #screen-utilities .main::-webkit-scrollbar { width: 8px; }
+        #screen-utilities .main::-webkit-scrollbar-track { background: transparent; }
+        #screen-utilities .main::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+        #screen-utilities .main::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+        #screen-utilities .tool-container { display: none; animation: utilFadeIn 0.4s ease-out; }
+        #screen-utilities .tool-container.active { display: block; }
+        @keyframes utilFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        #screen-utilities h2 { margin-top: 0; color: var(--util-text-main); font-size: 24px; font-weight: 700; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--util-border); }
+        #screen-utilities .form-group { margin-bottom: 24px; }
+        #screen-utilities .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--util-text-main); font-size: 14px; }
+        #screen-utilities .form-group input[type="number"], #screen-utilities .form-group textarea { width: 100%; padding: 14px 16px; font-size: 15px; border-radius: var(--util-rad-sm); border: 1.5px solid var(--util-border); background-color: #f8fafc; transition: all 0.2s; color: var(--util-text-main); }
+        #screen-utilities .form-group input[type="file"] { width: 100%; padding: 12px; font-size: 14px; border: 2px dashed var(--util-border); border-radius: var(--util-rad-sm); background-color: #f8fafc; color: var(--util-text-muted); cursor: pointer; transition: all 0.2s; }
+        #screen-utilities .form-group input[type="file"]:hover { border-color: var(--util-primary); background-color: var(--util-primary-light); }
+        #screen-utilities .form-group input[type="number"]:focus, #screen-utilities .form-group textarea:focus { outline: none; border-color: var(--util-primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); background-color: #fff; }
+        #screen-utilities .form-group textarea { min-height: 160px; resize: vertical; line-height: 1.6; }
+        #screen-utilities .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+        #screen-utilities .btn { padding: 12px 24px; font-size: 15px; font-weight: 600; border: none; border-radius: var(--util-rad-sm); cursor: pointer; color: white; transition: all 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: var(--util-shadow-sm); }
+        #screen-utilities .btn:active { transform: translateY(1px); box-shadow: none; }
+        #screen-utilities .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        #screen-utilities .btn-start { background-color: var(--util-success); }
+        #screen-utilities .btn-start:hover:not(:disabled) { background-color: var(--util-success-hover); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        #screen-utilities .btn-reset { background-color: var(--util-bg-body); color: var(--util-text-main); border: 1px solid var(--util-border); }
+        #screen-utilities .btn-reset:hover:not(:disabled) { background-color: var(--util-border); }
+        #screen-utilities .btn-download-word { background-color: var(--util-primary); }
+        #screen-utilities .btn-download-word:hover:not(:disabled) { background-color: var(--util-primary-hover); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); }
+        #screen-utilities #group-results { margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 24px; }
+        #screen-utilities .group-box { background-color: var(--util-bg-card); padding: 24px; border-radius: var(--util-rad-md); border: 1px solid var(--util-border); border-top: 5px solid var(--util-primary); box-shadow: var(--util-shadow-md); transition: transform 0.2s; }
+        #screen-utilities .group-box:hover { transform: translateY(-3px); box-shadow: var(--util-shadow-lg); }
+        #screen-utilities .group-box h4 { margin-top: 0; margin-bottom: 16px; color: var(--util-text-main); font-size: 18px; font-weight: 700;}
+        #screen-utilities .group-box ul { list-style-type: none; padding-left: 0; margin: 0; }
+        #screen-utilities .group-box li { background-color: var(--util-bg-body); padding: 12px 16px; border-radius: 6px; margin-bottom: 8px; font-size: 15px; font-weight: 500; color: var(--util-text-main); }
+        #screen-utilities .timer-inputs { display: flex; gap: 24px; align-items: flex-end; }
+        #screen-utilities .timer-inputs div { flex: 1; }
+        #screen-utilities #countdown-display { font-family: 'Courier New', Courier, monospace; font-size: clamp(3rem, 8vw, 7rem); font-weight: 800; text-align: center; margin: 40px 0; color: var(--util-primary); background-color: var(--util-bg-body); padding: 32px; border-radius: var(--util-rad-lg); border: 1px solid var(--util-border); letter-spacing: 2px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); transition: color 0.3s ease; }
+        #screen-utilities .wheel-wrapper { position: relative; width: 100%; max-width: 450px; aspect-ratio: 1 / 1; margin: 40px auto; }
+        #screen-utilities #wheel-canvas { width: 100%; height: 100%; display: block; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15)); }
+        #screen-utilities .wheel-pointer { position: absolute; top: 50%; right: -15px; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 20px 0 20px 35px; border-color: transparent transparent transparent #ef4444; z-index: 10; filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3)); }
+        #screen-utilities #wheel-winner { text-align: center; margin-top: 24px; font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 800; color: var(--util-success); min-height: 40px; padding: 10px; border-radius: var(--util-rad-sm); }
+        
+        @media (max-width: 900px) { #screen-utilities .container-wrapper { flex-direction: column; height: auto; padding: 16px; gap: 16px; } #screen-utilities .menu { width: 100%; padding: 12px; } #screen-utilities .menu h3 { display: none; } #screen-utilities .menu-buttons-wrapper { display: flex; flex-direction: row; overflow-x: auto; gap: 8px; padding-bottom: 4px; } #screen-utilities .menu-buttons-wrapper::-webkit-scrollbar { height: 4px; } #screen-utilities .menu-buttons-wrapper::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; } #screen-utilities .menu button { margin: 0; white-space: nowrap; flex: 0 0 auto; border-radius: var(--util-rad-sm); border: 1px solid var(--util-border); border-left: 1px solid var(--util-border); } #screen-utilities .menu button.active { border: 1px solid var(--util-primary); border-left: 1px solid var(--util-primary); } #screen-utilities .main { padding: 20px; overflow: visible; } #screen-utilities header { font-size: 22px; padding: 16px; padding-top: 60px; } .util-home-btn { top: 10px; } #screen-utilities #countdown-display { margin: 24px 0; padding: 24px 16px; } #screen-utilities .timer-inputs { flex-wrap: wrap; gap: 12px; } #screen-utilities .timer-inputs div { min-width: 30%; } }
+        @media (max-width: 480px) { #screen-utilities .controls { flex-direction: column; } #screen-utilities .btn { width: 100%; } #screen-utilities #group-results { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div id="screen-utilities" class="screen active">
+        <header>
+            
+            BỘ CÔNG CỤ TIỆN ÍCH
+        </header>
+        <p class="author-info">Tác giả: GV: Đậu Nam Thành - Trường THPT Đào Duy Từ</p>
+        <div class="container-wrapper">
+          <div class="menu">
+            <h3>Danh mục công cụ</h3>
+            <div class="menu-buttons-wrapper">
+              <button id="btn-group-divider" class="active" onclick="showTool('group-divider')">👥 Chia nhóm ngẫu nhiên</button>
+              <button id="btn-countdown-timer" onclick="showTool('countdown-timer')">⏳ Đồng hồ đếm ngược</button>
+              <button id="btn-lucky-wheel" onclick="showTool('lucky-wheel')">🎡 Vòng quay may mắn</button>
+            </div>
+          </div>
+          <div class="main">
+            <div id="group-divider" class="tool-container active">
+              <h2>CHIA NHÓM NGẪU NHIÊN</h2>
+              <div class="form-group">
+                <label for="student-list">Nhập hoặc dán danh sách (mỗi tên một dòng):</label>
+                <textarea id="student-list" placeholder="Nguyễn Văn An&#10;Trần Thị Bình&#10;Lê Văn Cường"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="group-count">Số nhóm cần chia:</label>
+                <input type="number" id="group-count" min="1" value="2">
+              </div>
+              <div class="controls">
+                <button class="btn btn-start" onclick="divideGroups()">Bắt đầu chia nhóm</button>
+                <button class="btn btn-reset" onclick="resetGroups()">Làm lại</button>
+                <button class="btn btn-download-word" onclick="downloadAsWord()" id="btn-download-word" hidden>Tải về (Word)</button>
+              </div>
+              <div id="group-results"></div>
+            </div>
+
+            <div id="countdown-timer" class="tool-container">
+              <h2>ĐỒNG HỒ ĐẾM NGƯỢC</h2>
+              <div class="form-group timer-inputs">
+                <div><label for="countdown-hours">Giờ</label><input type="number" id="countdown-hours" min="0" value="0"></div>
+                <div><label for="countdown-minutes">Phút</label><input type="number" id="countdown-minutes" min="0" value="0"></div>
+                <div><label for="countdown-seconds">Giây</label><input type="number" id="countdown-seconds" min="0" value="0"></div>
+              </div>
+              <div class="form-group">
+                <label for="upload-timer-sound">🎵 Chọn nhạc báo hiệu hết giờ (Tuỳ chọn):</label>
+                <input type="file" id="upload-timer-sound" accept="audio/*">
+              </div>
+              <div id="countdown-display">00:00:00</div>
+              <div class="controls">
+                <button id="countdown-start-btn" class="btn btn-start" onclick="startCountdown()">Bắt đầu</button>
+                <button class="btn btn-reset" onclick="resetCountdown()">Làm mới</button>
+              </div>
+            </div>
+
+            <div id="lucky-wheel" class="tool-container">
+                <h2>VÒNG QUAY MAY MẮN</h2>
+                <div class="form-group">
+                  <label for="wheel-list">Nhập danh sách (mỗi mục một dòng):</label>
+                  <textarea id="wheel-list" oninput="drawWheel()">An&#10;Bình&#10;Cường&#10;Dũng&#10;Giang&#10;Hương&#10;Khanh&#10;Lan</textarea>
+                </div>
+                <div class="form-group timer-inputs">
+                  <div><label for="spin-duration">Thời gian quay (giây):</label><input type="number" id="spin-duration" min="1" value="5"></div>
+                </div>
+                <div class="form-group">
+                  <label for="upload-wheel-sound">🎵 Chọn nhạc hiệu ứng vòng quay (Tuỳ chọn):</label><input type="file" id="upload-wheel-sound" accept="audio/*">
+                </div>
+                <div id="wheel-winner"></div>
+                <div class="controls">
+                  <button id="wheel-spin-btn" class="btn btn-start" onclick="spinWheel()">Bắt đầu quay</button>
+                  <button class="btn btn-reset" onclick="resetWheel()">Làm lại</button>
+                </div>
+                <div class="wheel-wrapper">
+                  <canvas id="wheel-canvas" width="450" height="450"></canvas><div class="wheel-pointer"></div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <audio id="countdown-end-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c74413.mp3" preload="auto"></audio>
+        <audio id="wheel-tick-sound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3b2830a6c.mp3" preload="auto"></audio>
+    </div>
+
+    <script>
+        /* =========================================================================
+           [VÙNG KHÓA 9]: JAVASCRIPT BỘ CÔNG CỤ TIỆN ÍCH 
+           ========================================================================= */
+        const allTools = document.querySelectorAll('.tool-container'); const allMenuButtons = document.querySelectorAll('.menu button');
+        function showTool(toolId) { allTools.forEach(tool => tool.classList.remove('active')); allMenuButtons.forEach(button => button.classList.remove('active')); document.getElementById(toolId).classList.add('active'); document.getElementById(`btn-${toolId}`).classList.add('active'); }
+        
+        const studentListInput = document.getElementById('student-list'); const groupCountInput = document.getElementById('group-count'); const groupResultsDiv = document.getElementById('group-results'); const btnDownloadWord = document.getElementById('btn-download-word'); let generatedGroups = []; 
+        
+        function divideGroups() { const students = studentListInput.value.split('\n').map(s => s.trim()).filter(s => s !== ''); const groupCount = parseInt(groupCountInput.value); if (students.length === 0 || isNaN(groupCount) || groupCount <= 0 || groupCount > students.length) { alert('Vui lòng kiểm tra lại danh sách và số nhóm. Số nhóm không được lớn hơn số lượng thành viên.'); return; } for (let i = students.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [students[i], students[j]] = [students[j], students[i]]; } generatedGroups = Array.from({ length: groupCount }, () => []); students.forEach((student, index) => { generatedGroups[index % groupCount].push(student); }); groupResultsDiv.innerHTML = ''; generatedGroups.forEach((group, index) => { const groupBox = document.createElement('div'); groupBox.className = 'group-box'; let listItems = group.map(student => `<li>${student}</li>`).join(''); groupBox.innerHTML = `<h4>Nhóm ${index + 1}</h4><ul>${listItems}</ul>`; groupResultsDiv.appendChild(groupBox); }); btnDownloadWord.hidden = false; }
+        
+        function resetGroups() { studentListInput.value = ''; groupCountInput.value = '2'; groupResultsDiv.innerHTML = ''; generatedGroups = []; btnDownloadWord.hidden = true; }
+        
+        function downloadAsWord() { if (generatedGroups.length === 0) { alert("Chưa có dữ liệu để tải về."); return; } try { let htmlContent = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Kết Quả Chia Nhóm</title></head><body><h1 style="text-align: center; font-family: Cambria, serif;">Kết Quả Chia Nhóm</h1>`; generatedGroups.forEach((group, index) => { htmlContent += `<h2 style="font-family: Cambria, serif;">Nhóm ${index + 1}</h2><ul style="font-family: Arial, sans-serif;">`; group.forEach(member => { htmlContent += `<li>${member}</li>`; }); htmlContent += '</ul>'; }); htmlContent += '</body></html>'; const blob = new Blob([htmlContent], { type: 'application/msword' }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "ket-qua-chia-nhom.doc"; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); } catch (error) { alert("Đã xảy ra lỗi khi cố gắng tạo tệp."); } }
+        
+        const uploadTimerSoundInput = document.getElementById('upload-timer-sound'); const countdownEndSound = document.getElementById('countdown-end-sound'); uploadTimerSoundInput.addEventListener('change', function(event) { const file = event.target.files[0]; if (file) { const objectURL = URL.createObjectURL(file); countdownEndSound.src = objectURL; }});
+        const uploadWheelSoundInput = document.getElementById('upload-wheel-sound'); const wheelTickSound = document.getElementById('wheel-tick-sound'); uploadWheelSoundInput.addEventListener('change', function(event) { const file = event.target.files[0]; if (file) { const objectURL = URL.createObjectURL(file); wheelTickSound.src = objectURL; }});
+        
+        const hoursInput = document.getElementById('countdown-hours'), minutesInput = document.getElementById('countdown-minutes'), secondsInput = document.getElementById('countdown-seconds'); const displayDiv = document.getElementById('countdown-display'), startBtn = document.getElementById('countdown-start-btn'); let countdownInterval, totalSeconds = 0;
+        
+        function updateDisplay() { const h = Math.floor(totalSeconds / 3600), m = Math.floor((totalSeconds % 3600) / 60), s = totalSeconds % 60; displayDiv.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; if (totalSeconds <= 10 && totalSeconds > 0) { displayDiv.style.color = 'var(--util-danger)'; } else { displayDiv.style.color = 'var(--util-primary)'; } }
+        
+        function startCountdown() { clearInterval(countdownInterval); totalSeconds = (parseInt(hoursInput.value) || 0) * 3600 + (parseInt(minutesInput.value) || 0) * 60 + (parseInt(secondsInput.value) || 0); if (totalSeconds <= 0) { alert("Vui lòng nhập thời gian hợp lệ."); return; } startBtn.disabled = true; [hoursInput, minutesInput, secondsInput].forEach(inp => inp.disabled = true); updateDisplay(); countdownInterval = setInterval(() => { totalSeconds--; updateDisplay(); if (totalSeconds <= 0) { clearInterval(countdownInterval); displayDiv.textContent = "HẾT GIỜ!"; countdownEndSound.currentTime = 0; countdownEndSound.play().catch(e => console.log("Trình duyệt chặn phát âm thanh tự động.")); resetCountdownState(); } }, 1000); }
+        
+        function resetCountdownState() { startBtn.disabled = false; [hoursInput, minutesInput, secondsInput].forEach(inp => inp.disabled = false); }
+        
+        function resetCountdown() { clearInterval(countdownInterval); resetCountdownState(); hoursInput.value = '0'; minutesInput.value = '0'; secondsInput.value = '0'; totalSeconds = 0; displayDiv.style.color = 'var(--util-primary)'; updateDisplay(); countdownEndSound.pause(); countdownEndSound.currentTime = 0; }
+        
+        const wheelCanvas = document.getElementById('wheel-canvas'); const wheelListInput = document.getElementById('wheel-list'); const spinDurationInput = document.getElementById('spin-duration'); const wheelWinnerDiv = document.getElementById('wheel-winner'); const wheelSpinBtn = document.getElementById('wheel-spin-btn'); const ctx = wheelCanvas.getContext('2d'); let currentRotation = 0; let isSpinning = false; const wheelColors = ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#C9CBCF", "#E74C3C", "#2ECC71", "#F1C40F"];
+        
+        function getWheelData() { return wheelListInput.value.split('\n').map(s => s.trim()).filter(s => s !== ''); }
+        
+        function drawWheel() { const segments = getWheelData(); if (segments.length === 0) { ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height); return; }; const arcSize = 2 * Math.PI / segments.length; const centerX = wheelCanvas.width / 2, centerY = wheelCanvas.height / 2, radius = wheelCanvas.width / 2 - 10; ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height); ctx.font = 'bold 16px Inter'; for (let i = 0; i < segments.length; i++) { const startAngle = currentRotation + i * arcSize, endAngle = startAngle + arcSize; ctx.fillStyle = wheelColors[i % wheelColors.length]; ctx.beginPath(); ctx.moveTo(centerX, centerY); ctx.arc(centerX, centerY, radius, startAngle, endAngle); ctx.closePath(); ctx.fill(); ctx.save(); ctx.fillStyle = 'white'; ctx.translate(centerX, centerY); ctx.rotate(startAngle + arcSize / 2); ctx.textAlign = 'right'; ctx.fillText(segments[i], radius - 20, 5); ctx.restore(); } }
+        
+        function spinWheel() { if (isSpinning) return; const segments = getWheelData(); if (segments.length < 2) { alert("Vui lòng nhập ít nhất 2 mục để quay."); return; } isSpinning = true; wheelSpinBtn.disabled = true; wheelWinnerDiv.textContent = 'Đang quay...'; const spinDuration = (parseInt(spinDurationInput.value) || 5) * 1000; const totalRotations = Math.random() * 8 + 15; const targetAngle = currentRotation + totalRotations * 2 * Math.PI; const initialRotation = currentRotation; let startTime = null; wheelTickSound.currentTime = 0; wheelTickSound.loop = true; wheelTickSound.play().catch(e => {}); function animate(currentTime) { if (!startTime) startTime = currentTime; const elapsedTime = currentTime - startTime; if (elapsedTime < spinDuration) { const t = elapsedTime / spinDuration; currentRotation = initialRotation + (targetAngle - initialRotation) * (1 - Math.pow(1 - t, 5)); drawWheel(); requestAnimationFrame(animate); } else { currentRotation = targetAngle; drawWheel(); finishSpin(); } } requestAnimationFrame(animate); }
+        
+        function finishSpin() { const segments = getWheelData(); const arcSize = 2 * Math.PI / segments.length; let winningAngle = 2 * Math.PI - (currentRotation % (2 * Math.PI)); if (winningAngle < 0) winningAngle += 2 * Math.PI; const winnerIndex = Math.floor(winningAngle / arcSize); wheelWinnerDiv.textContent = `🎉 CHÚC MỪNG: ${segments[winnerIndex]} 🎉`; isSpinning = false; wheelSpinBtn.disabled = false; wheelTickSound.pause(); wheelTickSound.currentTime = 0; }
+        
+        function resetWheel() { wheelListInput.value = 'An\nBình\nCường\nDũng\nGiang\nHương\nKhanh\nLan'; spinDurationInput.value = '5'; wheelWinnerDiv.textContent = ''; currentRotation = 0; drawWheel(); wheelTickSound.pause(); }
+        
+        document.addEventListener('DOMContentLoaded', () => { drawWheel(); resetCountdown(); });
+    </script>
+</body>
+</html>
